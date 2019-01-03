@@ -1,0 +1,130 @@
+{
+  "policy" : {
+    "levels" : {
+      "0" : {
+        "uplinkOnly" : 0
+      }
+    }
+  },
+  "dns" : {
+    "servers" : [
+      "localhost"
+    ]
+  },
+  "outboundDetour" : [
+    {
+      "protocol" : "freedom",
+      "tag" : "direct",
+      "settings" : {
+
+      }
+    }
+  ],
+  "inbound" : {
+    "listen" : "0.0.0.0",
+    "port" : 1081,
+    "protocol" : "socks",
+    "settings" : {
+      "auth" : "noauth",
+      "udp" : true,
+      "ip" : "127.0.0.1"
+    }
+  },
+  "inboundDetour" : [
+    {
+      "listen" : "0.0.0.0",
+      "allocate" : {
+        "strategy" : "always",
+        "refresh" : 5,
+        "concurrency" : 3
+      },
+      "port" : 8001,
+      "protocol" : "http",
+      "tag" : "httpDetour",
+      "domainOverride" : [
+        "http",
+        "tls"
+      ],
+      "streamSettings" : {
+
+      },
+      "settings" : {
+        "timeout" : 0
+      }
+    }
+  ],
+  "log" : {
+    "loglevel" : "error"
+  },
+  "routing" : {
+    "strategy" : "rules",
+    "settings" : {
+      "domainStrategy" : "IPIfNonMatch",
+      "rules" : [
+
+      ]
+    }
+  },
+  "outbound" : {
+    "sendThrough" : "0.0.0.0",
+    "mux" : {
+      "enabled" : false,
+      "concurrency" : 8
+    },
+    "protocol" : "vmess",
+    "settings" : {
+      "vnext" : [
+        {
+          "address" : "test",
+          "port" : 25,
+          "users" : [
+            {
+              "id" : "test",
+              "alterId" : 1024,
+              "security" : "auto",
+              "level" : 1
+            }
+          ],
+          "remark" : "AU"
+        }
+      ]
+    },
+    "streamSettings" : {
+      "wsSettings" : {
+        "path" : "\/healthcheck",
+        "headers" : {
+          "Host" : "test"
+        }
+      },
+      "tlsSettings" : {
+        "serverName" : "test",
+        "allowInsecure" : false
+      },
+      "httpSettings" : {
+        "path" : "\/healthcheck",
+        "host" : [
+          "test"
+        ]
+      },
+      "tcpSettings" : {
+        "header" : {
+          "type" : "none"
+        }
+      },
+      "kcpSettings" : {
+        "header" : {
+          "type" : "none"
+        },
+        "mtu" : 1350,
+        "congestion" : false,
+        "tti" : 20,
+        "uplinkCapacity" : 5,
+        "writeBufferSize" : 1,
+        "readBufferSize" : 1,
+        "downlinkCapacity" : 20
+      },
+      "network" : "ws",
+      "security" : "tls"
+    }
+  }
+}
