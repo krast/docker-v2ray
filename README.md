@@ -6,8 +6,9 @@
 
 ```bash
 docker run --name v2ray \
-  -d -p1081:1081 \
-  -d -p8001:8001 \
-  -v $(pwd)config.json:/opt/v2ray/config.json:rw \
+  -d \
+  -p1081:1081 \
+  -p8001:8001 \
+  -v $(pwd)/config.json:/opt/v2ray/config.json:rw \
   krast0/v2ray:1.0
 ```
